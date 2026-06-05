@@ -1,0 +1,46 @@
+#!/bin/bash
+
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+echo -e "${BLUE}════════════════════════════════════════${NC}"
+echo -e "${YELLOW}🔒 EXODIA OS — Mode Sandbox${NC}"
+echo -e "${BLUE}════════════════════════════════════════${NC}"
+echo ""
+
+if ! command -v docker &> /dev/null; then
+    echo -e "${RED}[!] Docker non trouvé.${NC}"
+    exit 1
+fi
+
+echo -e "${GREEN}[+] Docker détecté.${NC}"
+echo ""
+
+read -p "Commande msfvenom complète à tester : " PAYLOAD_CMD
+
+if [ -z "$PAYLOAD_CMD" ]; then
+    echo -e "${RED}[!] Aucune commande saisie.${NC}"
+    exit 1
+fi
+
+echo ""
+echo -e "${GREEN}[+] Lancement du conteneur sandbox isolé...${NC}"
+echo ""
+
+sudo docker run --rm --network none --read-only --security-opt apparmor=unconfined busybox:latest sh -c "echo '🧪 Simulation sandbox: $PAYLOAD_CMD'; echo '✅ Environnement isole - Aucun risque pour l hote'"
+
+EXIT_CODE=$?
+
+echo ""
+if [ $EXIT_CODE -eq 0 ]; then
+    echo -e "${GREEN}✅ Sandbox terminee avec succes.${NC}"
+else
+    echo -e "${RED}❌ Erreur lors de l execution du sandbox.${NC}"
+fi
+
+echo ""
+echo -e "${YELLOW}📌 Note : Ce sandbox est une SIMULATION pedagogique.${NC}"
+echo -e "${BLUE}════════════════════════════════════════${NC}"

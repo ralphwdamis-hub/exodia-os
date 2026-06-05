@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ -f /usr/local/share/exodia/banner.txt ]; then
+    cat /usr/local/share/exodia/banner.txt
+else
+    echo "🔱 EXODIA OS — Concept Security Spin"
+fi
+echo ""
+echo "   Commandes : exodia-status, necrovenom -h"

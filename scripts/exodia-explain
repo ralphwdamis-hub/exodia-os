@@ -1,0 +1,77 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
+echo -e "${YELLOW}📖 EXODIA OS — Base de connaissances${NC}"
+echo -e "${BLUE}════════════════════════════════════════════════════${NC}"
+echo ""
+
+if [ -z "$1" ]; then
+    echo -e "${RED}[!] Usage: exodia-explain <payload_name>${NC}"
+    echo ""
+    echo -e "${YELLOW}Exemples disponibles :${NC}"
+    echo "   exodia-explain windows/meterpreter/reverse_tcp"
+    echo "   exodia-explain windows/shell_reverse_tcp"
+    echo "   exodia-explain linux/x86/meterpreter/reverse_tcp"
+    echo "   exodia-explain linux/x86/shell_reverse_tcp"
+    echo "   exodia-explain windows/meterpreter/bind_tcp"
+    exit 1
+fi
+
+PAYLOAD="$1"
+
+echo -e "${GREEN}📖 Analyse du payload : ${YELLOW}$PAYLOAD${NC}"
+echo ""
+
+case "$PAYLOAD" in
+    *"windows/meterpreter/reverse_tcp"*)
+        echo -e "${GREEN}🔹 Type : Reverse TCP Meterpreter (Windows)${NC}"
+        echo "   📡 Port sortant typique : 4444"
+        echo "   🛡️ Detection : Surveillance des connexions sortantes"
+        echo "   ✍️ Regle Snort : alert tcp \$HOME_NET any -> \$EXTERNAL_NET 4444"
+        echo "   ⚠️ Tres detecte par les antivirus modernes"
+        echo "   📚 Meterpreter offre des commandes post-exploitation avancees"
+        ;;
+    *"windows/shell_reverse_tcp"*)
+        echo -e "${GREEN}🔹 Type : Reverse TCP Shell (Windows)${NC}"
+        echo "   📡 Port sortant typique : 4444"
+        echo "   🛡️ Detection : Moins avance que Meterpreter, plus leger"
+        echo "   📚 Shell classique sans fonctionnalites avancees"
+        ;;
+    *"linux/x86/meterpreter/reverse_tcp"*)
+        echo -e "${GREEN}🔹 Type : Reverse TCP Meterpreter (Linux x86)${NC}"
+        echo "   📡 Port sortant typique : 4444"
+        echo "   🛡️ Detection : Comportement similaire a la version Windows"
+        echo "   ⚠️ Ne fonctionne que sur architecture 32 bits"
+        ;;
+    *"linux/x86/shell_reverse_tcp"*)
+        echo -e "${GREEN}🔹 Type : Reverse TCP Shell (Linux x86)${NC}"
+        echo "   📡 Port sortant typique : 4444"
+        echo "   📚 Simple et efficace, sans Meterpreter"
+        ;;
+    *"bind_tcp"*)
+        echo -e "${GREEN}🔹 Type : Bind TCP (ecoute locale)${NC}"
+        echo "   📡 Port entrant typique : 4444"
+        echo "   🛡️ Detection : Scan des ports ouverts inattendus"
+        echo "   ⚠️ Moins fiable que reverse si pare-feu sortant bloque"
+        ;;
+    *)
+        echo -e "${YELLOW}🔹 Type : Payload generique${NC}"
+        echo "   Aucune information specifique disponible pour ce payload."
+        echo "   Consultez : msfvenom -l payloads | grep -i \"$PAYLOAD\""
+        ;;
+esac
+
+echo ""
+echo -e "${GREEN}📚 Recommandation :${NC}"
+echo "   Utilisez toujours ce payload dans un cadre autorise et legal."
+echo ""
+echo -e "${YELLOW}💡 Commande utile :${NC}"
+echo "   msfvenom -l payloads | grep -i \"${PAYLOAD}\""
+echo ""
+echo -e "${BLUE}════════════════════════════════════════════════════${NC}"

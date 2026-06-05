@@ -1,0 +1,74 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+DATE=$(date "+%Y-%m-%d %H:%M:%S")
+HOSTNAME=$(hostname)
+USER=$(whoami)
+REPORT_DIR="$HOME/exodia-reports"
+mkdir -p "$REPORT_DIR"
+
+echo -e "${BLUE}════════════════════════════════════════${NC}"
+echo -e "${YELLOW}📄 EXODIA OS — Générateur de rapport légal${NC}"
+echo -e "${BLUE}════════════════════════════════════════${NC}"
+echo ""
+
+read -p "Nom du client / projet : " CLIENT
+read -p "Cible autorisée (IP ou domaine) : " TARGET
+read -p "Portée du test : " SCOPE
+read -p "Payload généré (ex: windows/meterpreter/reverse_tcp) : " PAYLOAD
+
+REPORT_FILE="$REPORT_DIR/exodia_report_$(date +%Y%m%d_%H%M%S).txt"
+
+cat > "$REPORT_FILE" << EOF
+═══════════════════════════════════════════════════════════════
+                     EXODIA OS — RAPPORT D'AUDIT
+═══════════════════════════════════════════════════════════════
+
+Date du rapport : $DATE
+Opérateur : $USER@$HOSTNAME
+Client : $CLIENT
+
+───────────────────────────────────────────────────────────────
+1. AUTORISATION
+───────────────────────────────────────────────────────────────
+
+Je soussigné(e), $CLIENT, autorise Exodia OS à réaliser des tests
+d'intrusion sur la cible suivante :
+
+Cible : $TARGET
+
+Portée : $SCOPE
+
+Date de l'autorisation : $DATE
+
+Signature (client) : _______________________________
+
+───────────────────────────────────────────────────────────────
+2. PAYLOAD GÉNÉRÉ
+───────────────────────────────────────────────────────────────
+
+Payload : $PAYLOAD
+Généré via : necrovenom / msfvenom
+
+───────────────────────────────────────────────────────────────
+3. RAPPEL LÉGAL
+───────────────────────────────────────────────────────────────
+
+L'utilisation de ce payload sans autorisation écrite est illégale.
+Ce rapport n'est pas un document juridiquement engageant mais une
+recommandation. L'opérateur est seul responsable de l'usage de
+ces outils.
+
+───────────────────────────────────────────────────────────────
+                  FIN DU RAPPORT
+═══════════════════════════════════════════════════════════════
+EOF
+
+echo ""
+echo -e "${GREEN}✅ Rapport généré : $REPORT_FILE${NC}"
+echo ""
+cat "$REPORT_FILE"

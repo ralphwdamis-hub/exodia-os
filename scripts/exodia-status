@@ -1,0 +1,41 @@
+#!/bin/bash
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo -e "${YELLOW}🔱 EXODIA OS — État des modules${NC}"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+check_tool() {
+    if command -v $1 &> /dev/null; then
+        echo -e "${GREEN}✅ $2${NC}"
+    else
+        echo -e "${RED}❌ $2${NC}"
+    fi
+}
+
+echo ""
+echo "👁️  Membre Gauche (Recon)"
+check_tool "nmap" "  - Nmap"
+check_tool "theharvester" "  - theHarvester (optionnel)"
+
+echo ""
+echo "⚡ Membre Droit (Exploit)"
+check_tool "msfconsole" "  - Metasploit"
+check_tool "searchsploit" "  - Searchsploit"
+
+echo ""
+echo "🔄 Membre Gauche II (Persistence)"
+echo "  - systemd : $(systemctl --version &>/dev/null && echo '✅' || echo '❌')"
+echo "  - cron    : $(command -v cron &>/dev/null && echo '✅' || echo '❌')"
+
+echo ""
+echo "📈 Membre Droit II (PrivEsc)"
+check_tool "sudo" "  - sudo"
+
+echo ""
+echo "🧠 Tête (C2)"
+check_tool "msfvenom" "  - msfvenom"
+echo ""
